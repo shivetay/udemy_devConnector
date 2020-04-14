@@ -75,7 +75,6 @@ router.post(
           id: user._id,
         },
       };
-      console.log('payload', payload);
 
       //sends the token with expire timestamp/ connect it o user ID
       jwt.sign(
