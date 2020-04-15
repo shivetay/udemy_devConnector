@@ -2,44 +2,41 @@ import React, { Component } from 'react';
 
 class Register extends Component {
   state = {
-    // formData: {
-    //   name: '',
-    //   email: '',
-    //   password: '',
-    //   password2: '',
-    // },
-
-    name: '',
-    email: '',
-    password: '',
-    password2: '',
+    formData: {
+      name: '',
+      email: '',
+      password: '',
+      password2: '',
+    },
+    // name: '',
+    // email: '',
+    // password: '',
+    // password2: '',
   };
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    // setting formData in the state properly
+    const { formData } = this.state;
+    let newFormData = { ...formData };
+    newFormData[e.target.name] = e.target.value;
+    this.setState({
+      formData: newFormData,
+    });
   };
 
-  // const onSubmit = (e) => {
-  //   // const { password, password2 } = this.state;
-  //   e.preventDefault();
-  //   if (password !== password2) {
-  //     console.log('password do not match');
-  //   } else {
-  //     console.log(this.state);
-  //   }
-  // };
+  onSubmit = (e) => {
+    const { password, password2 } = this.state.formData;
+    e.preventDefault();
+    if (password !== password2) {
+      console.log('password do not match');
+    } else {
+      console.log(this.state);
+    }
+  };
 
   render() {
-    const { name, email, password, password2 } = this.state;
-    const onSubmit = (e) => {
-      // const { password, password2 } = this.state;
-      e.preventDefault();
-      if (password !== password2) {
-        console.log('password do not match');
-      } else {
-        console.log(this.state);
-      }
-    };
+    const { name, email, password, password2 } = this.state.formData;
+
     return (
       <section className='container'>
         <h1 className='large text-primary'>Sign Up</h1>
@@ -49,7 +46,7 @@ class Register extends Component {
         <form
           className='form'
           action='create-profile.html'
-          onSubmit={(e) => onSubmit(e)}>
+          onSubmit={this.onSubmit}>
           <div className='form-group'>
             <input
               type='text'
