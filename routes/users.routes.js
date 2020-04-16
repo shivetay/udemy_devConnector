@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.models');
 
 /* 
-POST api/user
+POST api/users
 register user
 poublic
 
