@@ -9,6 +9,7 @@ const MainLayout = ({ children }) => {
   return (
     <div>
       <Header />
+
       <main>{children}</main>
     </div>
   );

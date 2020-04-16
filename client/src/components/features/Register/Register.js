@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class Register extends Component {
   state = {
@@ -9,6 +10,10 @@ class Register extends Component {
       password: '',
       password2: '',
     },
+  };
+
+  static propTypes = {
+    setAlert: PropTypes.func,
   };
 
   onChange = (e) => {
@@ -23,9 +28,10 @@ class Register extends Component {
 
   onSubmit = (e) => {
     const { password, password2 } = this.state.formData;
+    const { setAlert } = this.props;
     e.preventDefault();
     if (password !== password2) {
-      console.log('password do not match');
+      setAlert('Password do not match', 'danger');
     } else {
       console.log(this.state);
     }
