@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link, Redirect } from 'react-router-dom';
 
 class Login extends Component {
   state = {
@@ -7,6 +8,11 @@ class Login extends Component {
       email: '',
       password: '',
     },
+  };
+
+  static poropTypes = {
+    logUser: PropTypes.func,
+    isAuth: PropTypes.bool,
   };
 
   onChange = (e) => {
@@ -20,12 +26,19 @@ class Login extends Component {
   };
 
   onSubmit = (e) => {
+    const { email, password } = this.state.formData;
+    const { logUser } = this.props;
     e.preventDefault();
-    console.log('Logged');
+    logUser(email, password);
   };
 
   render() {
     const { email, password } = this.state.formData;
+    const { isAuth } = this.props;
+
+    if (isAuth) {
+      return <Redirect to='/dashboard' />;
+    }
 
     return (
       <section className='container'>

@@ -43,7 +43,7 @@ import store from './redux/store';
 
 import MainLayout from '../src/components/layout/MainLayout/MainLayout';
 import Landing from '../src/components/views/Landing/Landing';
-import Login from '../src/components/features/Login/Login';
+import Login from '../src/components/features/Login/LoginContainer';
 import Register from '../src/components/features/Register/RegisterContainer';
 import Alerts from '../src/components/common/Alerts/AlertsContainer';
 

@@ -5,8 +5,7 @@ import { registerUser } from '../../../redux/AuthReducer';
 import Register from './Register.js';
 
 const mapStateToProps = (state) => ({
-  alerts: state.alerts,
-  auth: state.auth,
+  isAuth: state.auth.isAuthenticated,
 });
 
 const mapDispatchToProps = (dispatch) => ({

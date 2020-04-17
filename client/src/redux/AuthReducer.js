@@ -12,6 +12,8 @@ export const REGISTER_SUCCESS = createActionName('REGISTER_SUCCESS');
 export const REGISTER_FAIL = createActionName('REGISTER_FAIL');
 export const USER_LOADED = createActionName('USER_LOADED');
 export const AUTH_ERROR = createActionName('AUTH_ERROR');
+export const LOGIN_SUCCESS = createActionName('LOGIN_SUCCESS');
+export const LOGIN_FAIL = createActionName('LOGIN_FAIL');
 
 /* action creators */
 
@@ -30,6 +32,14 @@ export const userLoadSuccess = (payload) => ({
 export const userAuthError = (payload) => ({
   payload,
   type: AUTH_ERROR,
+});
+export const loginSuccesAction = (payload) => ({
+  payload,
+  type: LOGIN_SUCCESS,
+});
+export const loginFailAction = (payload) => ({
+  payload,
+  type: LOGIN_FAIL,
 });
 
 /* actions THUNK */
@@ -58,17 +68,37 @@ export const registerUser = ({ name, email, password }) => {
     };
     const body = JSON.stringify({ name, email, password });
     try {
-      const res = await axios.post(
-        '/api/users',
-        //http://localhost:8000/api/users
-        body,
-        config
-      );
+      const res = await axios.post('/api/users', body, config);
 
-      dispatch(registerSuccesAction(res.data));
+      dispatch(loginSuccesAction(res.data));
+      dispatch(loadUser());
     } catch (err) {
       const errors = err.response.data.errors;
-      // console.log(err.response.request._response);
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
+      dispatch(loginFailAction({ name: 'LOGIN_FAIL' }));
+    }
+  };
+};
+
+//login user
+
+export const loginUser = (email, password) => {
+  return async (dispatch) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const body = JSON.stringify({ email, password });
+    try {
+      const res = await axios.post('/api/auth', body, config);
+
+      dispatch(registerSuccesAction(res.data));
+      dispatch(loadUser());
+    } catch (err) {
+      const errors = err.response.data.errors;
 
       if (errors) {
         errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
@@ -94,6 +124,7 @@ export default function reducer(state = initialState, action) {
   switch (action.type) {
     // register
     case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
@@ -103,6 +134,7 @@ export default function reducer(state = initialState, action) {
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
+    case LOGIN_FAIL:
       localStorage.removeItem('token');
       return {
         ...state,

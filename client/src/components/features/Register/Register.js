@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 class Register extends Component {
@@ -15,6 +15,7 @@ class Register extends Component {
   static propTypes = {
     setAlert: PropTypes.func,
     regUser: PropTypes.func,
+    isAuth: PropTypes.bool,
   };
 
   onChange = (e) => {
@@ -40,7 +41,11 @@ class Register extends Component {
 
   render() {
     const { name, email, password, password2 } = this.state.formData;
+    const { isAuth } = this.props;
 
+    if (isAuth) {
+      return <Redirect to='/dashboard' />;
+    }
     return (
       <section className='container'>
         <h1 className='large text-primary'>Sign Up</h1>
