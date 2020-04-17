@@ -14,6 +14,7 @@ export const USER_LOADED = createActionName('USER_LOADED');
 export const AUTH_ERROR = createActionName('AUTH_ERROR');
 export const LOGIN_SUCCESS = createActionName('LOGIN_SUCCESS');
 export const LOGIN_FAIL = createActionName('LOGIN_FAIL');
+export const LOGOUT = createActionName('LOGOUT');
 
 /* action creators */
 
@@ -40,6 +41,10 @@ export const loginSuccesAction = (payload) => ({
 export const loginFailAction = (payload) => ({
   payload,
   type: LOGIN_FAIL,
+});
+export const logoutAction = (payload) => ({
+  payload,
+  type: LOGOUT,
 });
 
 /* actions THUNK */
@@ -108,10 +113,18 @@ export const loginUser = (email, password) => {
   };
 };
 
+// logout & profile clear
+
+export const logoutUser = () => {
+  return (dispatch) => {
+    dispatch(logoutAction({ name: 'LOGOUT' }));
+  };
+};
+
 /* initial state */
 
 const initialState = {
-  //store toke in localstorage
+  //store token in localstorage
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
@@ -135,6 +148,7 @@ export default function reducer(state = initialState, action) {
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
+    case LOGOUT:
       localStorage.removeItem('token');
       return {
         ...state,
