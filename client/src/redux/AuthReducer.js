@@ -37,7 +37,7 @@ export const userAuthError = (payload) => ({
 export const loadUser = () => {
   return async (dispatch) => {
     if (localStorage.token) {
-      dispatch(setAuthToken(localStorage.token));
+      setAuthToken(localStorage.token);
     }
     try {
       const res = await axios.get('/api/auth');

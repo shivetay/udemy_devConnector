@@ -8,22 +8,28 @@
 // import Register from '../src/components/features/Register/RegisterContainer';
 // import Alerts from '../src/components/common/Alerts/AlertsContainer';
 
-// class App extends Component {
+// import { setAuthToken } from './utils/utils';
+// import { loadUser } from './redux/AuthReducer';
 
+// class App extends Component {
+//   componentDidMount() {
+//     setAuthToken(localStorage.token);
+//     store.dispatch(loadUser(), []);
+//   }
 //   render() {
 //     return (
-// <BrowserRouter>
-//   <MainLayout>
-//     <Route exact path='/' component={Landing} />
-//     <section className='container'>
-//       <Alerts />
-//       <Switch>
-//         <Route exact path='/register' component={Register} />
-//         <Route exact path='/login' component={Login} />
-//       </Switch>
-//     </section>
-//   </MainLayout>
-// </BrowserRouter>
+//       <BrowserRouter>
+//         <MainLayout>
+//           <Route exact path='/' component={Landing} />
+//           <section className='container'>
+//             <Alerts />
+//             <Switch>
+//               <Route exact path='/register' component={Register} />
+//               <Route exact path='/login' component={Login} />
+//             </Switch>
+//           </section>
+//         </MainLayout>
+//       </BrowserRouter>
 //     );
 //   }
 // }
