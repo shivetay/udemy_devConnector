@@ -3,13 +3,14 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import alerts from './AlertReducer';
+import auth from './AuthReducer';
 
 // initial state
 const initialState = {};
 
 // define reducers
 const reducers = {
-  // auth: authReducer,
+  auth: auth,
   alerts: alerts,
 };
 

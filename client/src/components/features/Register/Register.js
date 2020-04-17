@@ -14,6 +14,7 @@ class Register extends Component {
 
   static propTypes = {
     setAlert: PropTypes.func,
+    regUser: PropTypes.func,
   };
 
   onChange = (e) => {
@@ -27,13 +28,13 @@ class Register extends Component {
   };
 
   onSubmit = (e) => {
-    const { password, password2 } = this.state.formData;
-    const { setAlert } = this.props;
+    const { password, password2, name, email } = this.state.formData;
+    const { setAlert, regUser } = this.props;
     e.preventDefault();
     if (password !== password2) {
       setAlert('Password do not match', 'danger');
     } else {
-      console.log(this.state);
+      regUser({ name, email, password });
     }
   };
 
@@ -67,6 +68,7 @@ class Register extends Component {
               name='email'
               value={email}
               onChange={this.onChange}
+              required
             />
             <small className='form-text'>
               This site uses Gravatar so if you want a profile image, use a
@@ -81,6 +83,7 @@ class Register extends Component {
               minLength='6'
               value={password}
               onChange={this.onChange}
+              required
             />
           </div>
           <div className='form-group'>
@@ -90,6 +93,7 @@ class Register extends Component {
               name='password2'
               value={password2}
               onChange={this.onChange}
+              required
               minLength='6'
             />
           </div>
