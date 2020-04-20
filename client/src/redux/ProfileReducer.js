@@ -10,6 +10,7 @@ const createActionName = (name) => `app/${reducerName}/${name}`;
 
 export const GET_PROFILE = createActionName('GET_PROFILE');
 export const ERROR_PROFILE = createActionName('ERROR_PROFILE');
+export const CLEAR_PROFILE = createActionName('CLEAR_PROFILE');
 
 /* action creators */
 
@@ -21,7 +22,10 @@ export const getProfileError = (payload) => ({
   payload,
   type: ERROR_PROFILE,
 });
-
+export const clearProfileAction = (payload) => ({
+  payload,
+  type: CLEAR_PROFILE,
+});
 /* actions THUNK */
 
 export const fetchCurrentUser = () => {
@@ -68,7 +72,13 @@ export default function reducer(state = initialState, action) {
         error: action.payload,
         loading: false,
       };
-
+    case CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
+        repos: [],
+        loading: false,
+      };
     default:
       return state;
   }

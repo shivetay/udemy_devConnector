@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './AlertReducer';
 import { setAuthToken } from '../utils/utils';
+import { clearProfileAction } from './ProfileReducer';
 
 /* action name creator */
 const reducerName = 'auth';
@@ -15,6 +16,7 @@ export const AUTH_ERROR = createActionName('AUTH_ERROR');
 export const LOGIN_SUCCESS = createActionName('LOGIN_SUCCESS');
 export const LOGIN_FAIL = createActionName('LOGIN_FAIL');
 export const LOGOUT = createActionName('LOGOUT');
+export const CLEAR_PROFILE = createActionName('CLEAR_PROFILE');
 
 /* action creators */
 
@@ -117,6 +119,7 @@ export const loginUser = (email, password) => {
 
 export const logoutUser = () => {
   return (dispatch) => {
+    dispatch(clearProfileAction());
     dispatch(logoutAction({ name: 'LOGOUT' }));
   };
 };
