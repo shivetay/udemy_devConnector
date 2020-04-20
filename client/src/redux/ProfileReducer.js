@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './AlertReducer';
-import { setAuthToken } from '../utils/utils';
+// import { setAuthToken } from '../utils/utils';
 
 /* action name creator */
 const reducerName = 'auth';
@@ -8,127 +8,47 @@ const createActionName = (name) => `app/${reducerName}/${name}`;
 
 /* action types */
 
-export const REGISTER_SUCCESS = createActionName('REGISTER_SUCCESS');
-export const REGISTER_FAIL = createActionName('REGISTER_FAIL');
-export const USER_LOADED = createActionName('USER_LOADED');
-export const AUTH_ERROR = createActionName('AUTH_ERROR');
-export const LOGIN_SUCCESS = createActionName('LOGIN_SUCCESS');
-export const LOGIN_FAIL = createActionName('LOGIN_FAIL');
-export const LOGOUT = createActionName('LOGOUT');
+export const GET_PROFILE = createActionName('GET_PROFILE');
+export const ERROR_PROFILE = createActionName('ERROR_PROFILE');
 
 /* action creators */
 
-export const registerSuccesAction = (payload) => ({
+export const getProfileAction = (payload) => ({
   payload,
-  type: REGISTER_SUCCESS,
+  type: GET_PROFILE,
 });
-export const registerFailAction = (payload) => ({
+export const getProfileError = (payload) => ({
   payload,
-  type: REGISTER_FAIL,
-});
-export const userLoadSuccess = (payload) => ({
-  payload,
-  type: USER_LOADED,
-});
-export const userAuthError = (payload) => ({
-  payload,
-  type: AUTH_ERROR,
-});
-export const loginSuccesAction = (payload) => ({
-  payload,
-  type: LOGIN_SUCCESS,
-});
-export const loginFailAction = (payload) => ({
-  payload,
-  type: LOGIN_FAIL,
-});
-export const logoutAction = (payload) => ({
-  payload,
-  type: LOGOUT,
+  type: ERROR_PROFILE,
 });
 
 /* actions THUNK */
-//load user
-export const loadUser = () => {
+
+export const fetchCurrentUser = () => {
   return async (dispatch) => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
     try {
-      const res = await axios.get('/api/auth');
-      dispatch(userLoadSuccess(res.data));
+      const res = await axios.get('/api/profile/me');
+
+      dispatch(getProfileAction(res.data));
     } catch (err) {
-      dispatch(userAuthError({ name: 'AUTH_ERROR' }));
+      dispatch(
+        getProfileError({
+          msg: err.response.statusText,
+          status: err.response.status,
+        })
+      );
     }
-  };
-};
-
-//post user
-export const registerUser = ({ name, email, password }) => {
-  return async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify({ name, email, password });
-    try {
-      const res = await axios.post('/api/users', body, config);
-
-      dispatch(loginSuccesAction(res.data));
-      dispatch(loadUser());
-    } catch (err) {
-      const errors = err.response.data.errors;
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-      }
-      dispatch(loginFailAction({ name: 'LOGIN_FAIL' }));
-    }
-  };
-};
-
-//login user
-
-export const loginUser = (email, password) => {
-  return async (dispatch) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    const body = JSON.stringify({ email, password });
-    try {
-      const res = await axios.post('/api/auth', body, config);
-
-      dispatch(registerSuccesAction(res.data));
-      dispatch(loadUser());
-    } catch (err) {
-      const errors = err.response.data.errors;
-
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-      }
-      dispatch(registerFailAction({ name: 'REGISTER_FAIL' }));
-    }
-  };
-};
-
-// logout & profile clear
-
-export const logoutUser = () => {
-  return (dispatch) => {
-    dispatch(logoutAction({ name: 'LOGOUT' }));
   };
 };
 
 /* initial state */
 
 const initialState = {
-  //store token in localstorage
-  token: localStorage.getItem('token'),
-  isAuthenticated: null,
+  profile: null,
+  profiles: [], //list of profiles
+  repos: [],
   loading: true,
-  user: null,
+  error: {},
 };
 
 /* reducer */
@@ -136,34 +56,19 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     // register
-    case REGISTER_SUCCESS:
-    case LOGIN_SUCCESS:
-      localStorage.setItem('token', action.payload.token);
+    case GET_PROFILE:
       return {
         ...state,
-        ...action.payload,
-        isAuthenticated: true,
+        profile: action.payload,
         loading: false,
       };
-    case REGISTER_FAIL:
-    case AUTH_ERROR:
-    case LOGIN_FAIL:
-    case LOGOUT:
-      localStorage.removeItem('token');
+    case ERROR_PROFILE:
       return {
         ...state,
-        token: null,
-        isAuthenticated: null,
+        error: action.payload,
         loading: false,
       };
-    //user loading
-    case USER_LOADED:
-      return {
-        ...state,
-        isAuthenticated: true,
-        loading: false,
-        user: action.payload,
-      };
+
     default:
       return state;
   }
