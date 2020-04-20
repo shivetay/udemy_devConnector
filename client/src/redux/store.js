@@ -4,14 +4,16 @@ import thunk from 'redux-thunk';
 
 import alerts from './AlertReducer';
 import auth from './AuthReducer';
+import profile from './ProfileReducer';
 
 // initial state
 const initialState = {};
 
 // define reducers
 const reducers = {
-  auth: auth,
-  alerts: alerts,
+  auth,
+  alerts,
+  profile,
 };
 
 // add blank reducers for initial state properties without reducers

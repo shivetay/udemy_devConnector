@@ -46,6 +46,8 @@ import Landing from '../src/components/views/Landing/Landing';
 import Login from '../src/components/features/Login/LoginContainer';
 import Register from '../src/components/features/Register/RegisterContainer';
 import Alerts from '../src/components/common/Alerts/AlertsContainer';
+import Dashboard from '../src/components/views/Dashboard/Dashboard';
+import PrivateRoute from '../src/components/common/Routing/PrivateRouteContainer';
 
 import { setAuthToken } from './utils/utils';
 import { loadUser } from './redux/AuthReducer';
@@ -67,6 +69,7 @@ const App = () => {
               <Switch>
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
+                <PrivateRoute exact path='/dashboard' component={Dashboard} />
               </Switch>
             </section>
           </MainLayout>
