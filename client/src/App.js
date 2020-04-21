@@ -10,6 +10,7 @@ import Register from '../src/components/features/Register/RegisterContainer';
 import Alerts from '../src/components/common/Alerts/AlertsContainer';
 import Dashboard from '../src/components/views/Dashboard/DashboardContainer';
 import PrivateRoute from '../src/components/common/Routing/PrivateRouteContainer';
+import CreatePrfile from '../src/components/views/Profile/CreateProfile';
 
 import { setAuthToken } from './utils/utils';
 import { loadUser } from './redux/AuthReducer';
@@ -32,6 +33,11 @@ const App = () => {
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
                 <PrivateRoute exact path='/dashboard' component={Dashboard} />
+                <PrivateRoute
+                  exact
+                  path='/create-profile'
+                  component={CreatePrfile}
+                />
               </Switch>
             </section>
           </MainLayout>

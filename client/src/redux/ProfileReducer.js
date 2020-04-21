@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAlert } from './AlertReducer';
+// import { setAlert } from './AlertReducer';
 // import { setAuthToken } from '../utils/utils';
 
 /* action name creator */

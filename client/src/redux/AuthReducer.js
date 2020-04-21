@@ -158,6 +158,7 @@ export default function reducer(state = initialState, action) {
         token: null,
         isAuthenticated: null,
         loading: false,
+        user: null,
       };
     //user loading
     case USER_LOADED:
