@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { setAlert } from './AlertReducer';
+import { setAlert } from './AlertReducer';
 // import { setAuthToken } from '../utils/utils';
 
 /* action name creator */
@@ -35,6 +35,38 @@ export const fetchCurrentUser = () => {
 
       dispatch(getProfileAction(res.data));
     } catch (err) {
+      dispatch(
+        getProfileError({
+          msg: err.response.statusText,
+          status: err.response.status,
+        })
+      );
+    }
+  };
+};
+
+// create/update profile
+// history will redirect
+export const createUserProfile = (formData, history, edit = false) => {
+  return async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      const res = await axios.post('/api/profile', formData, config);
+      dispatch(getProfileAction(res.data));
+      dispatch(setAlert(edit ? 'Profile updated' : 'Profile created'));
+
+      if (!edit) {
+        history.push('/dashboard');
+      }
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
       dispatch(
         getProfileError({
           msg: err.response.statusText,

@@ -9,7 +9,7 @@ class Dashboard extends Component {
     profile: PropTypes.object.isRequired,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { getUserProfile } = this.props;
     getUserProfile();
   }

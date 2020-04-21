@@ -10,7 +10,7 @@ import Register from '../src/components/features/Register/RegisterContainer';
 import Alerts from '../src/components/common/Alerts/AlertsContainer';
 import Dashboard from '../src/components/views/Dashboard/DashboardContainer';
 import PrivateRoute from '../src/components/common/Routing/PrivateRouteContainer';
-import CreatePrfile from '../src/components/views/Profile/CreateProfile';
+import CreatePrfile from '../src/components/views/Profile/CreateProfileContainer';
 
 import { setAuthToken } from './utils/utils';
 import { loadUser } from './redux/AuthReducer';

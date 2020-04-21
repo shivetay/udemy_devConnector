@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+// import { Link, withRouter } from 'react-router-dom';
 
 class CreateProfile extends Component {
   state = {
@@ -20,6 +21,11 @@ class CreateProfile extends Component {
     displaySocial: false,
   };
 
+  static propTypes = {
+    createProfile: PropTypes.func.isRequired,
+    history: PropTypes.any,
+  };
+
   toggleSoacial = () => {
     const { displaySocial } = this.state;
     if (!displaySocial) {
@@ -38,8 +44,12 @@ class CreateProfile extends Component {
       formData: newFormData,
     });
   };
-
-  static propTypes = {};
+  onSubmit = (e) => {
+    const { createProfile, history } = this.props;
+    const { formData } = this.state;
+    e.preventDefault();
+    createProfile(formData, history);
+  };
   render() {
     const {
       company,
@@ -64,12 +74,9 @@ class CreateProfile extends Component {
           your profile stand out
         </p>
         <small>* = required field</small>
-        <form className='form'>
+        <form className='form' onSubmit={(e) => this.onSubmit(e)}>
           <div className='form-group'>
-            <select
-              name='status'
-              value={status}
-              onChange={(e) => this.onChange(e)}>
+            <select name='status' value={status} onChange={this.onChange}>
               <option value='0'>* Select Professional Status</option>
               <option value='Developer'>Developer</option>
               <option value='Junior Developer'>Junior Developer</option>
@@ -90,7 +97,7 @@ class CreateProfile extends Component {
               placeholder='Company'
               name='company'
               value={company}
-              onChange={(e) => this.onChange(e)}
+              onChange={this.onChange}
             />
             <small className='form-text'>
               Could be your own company or one you work for
@@ -102,7 +109,7 @@ class CreateProfile extends Component {
               placeholder='Website'
               name='website'
               value={website}
-              onChange={(e) => this.onChange(e)}
+              onChange={this.onChange}
             />
             <small className='form-text'>
               Could be your own or a company website
@@ -114,7 +121,7 @@ class CreateProfile extends Component {
               placeholder='Location'
               name='location'
               value={location}
-              onChange={(e) => this.onChange(e)}
+              onChange={this.onChange}
             />
             <small className='form-text'>
               City & state suggested (eg. Boston, MA)
@@ -126,7 +133,7 @@ class CreateProfile extends Component {
               placeholder='* Skills'
               name='skills'
               value={skills}
-              onChange={(e) => this.onChange(e)}
+              onChange={this.onChange}
             />
             <small className='form-text'>
               Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
@@ -138,7 +145,7 @@ class CreateProfile extends Component {
               placeholder='Github Username'
               name='githubusername'
               value={githubusername}
-              onChange={(e) => this.onChange(e)}
+              onChange={this.onChange}
             />
             <small className='form-text'>
               If you want your latest repos and a Github link, include your
@@ -150,7 +157,7 @@ class CreateProfile extends Component {
               placeholder='A short bio of yourself'
               name='bio'
               value={bio}
-              onChange={(e) => this.onChange(e)}></textarea>
+              onChange={this.onChange}></textarea>
             <small className='form-text'>Tell us a little about yourself</small>
           </div>
 
@@ -172,7 +179,7 @@ class CreateProfile extends Component {
                   placeholder='Twitter URL'
                   name='twitter'
                   value={twitter}
-                  onChange={(e) => this.onChange(e)}
+                  onChange={this.onChange}
                 />
               </div>
 
@@ -183,7 +190,7 @@ class CreateProfile extends Component {
                   placeholder='Facebook URL'
                   name='facebook'
                   value={facebook}
-                  onChange={(e) => this.onChange(e)}
+                  onChange={this.onChange}
                 />
               </div>
 
@@ -194,7 +201,7 @@ class CreateProfile extends Component {
                   placeholder='YouTube URL'
                   name='youtube'
                   value={youtube}
-                  onChange={(e) => this.onChange(e)}
+                  onChange={this.onChange}
                 />
               </div>
 
@@ -205,7 +212,7 @@ class CreateProfile extends Component {
                   placeholder='Linkedin URL'
                   name='linkedin'
                   value={linkedin}
-                  onChange={(e) => this.onChange(e)}
+                  onChange={this.onChange}
                 />
               </div>
 
@@ -216,7 +223,7 @@ class CreateProfile extends Component {
                   placeholder='Instagram URL'
                   name='instagram'
                   value={instagram}
-                  onChange={(e) => this.onChange(e)}
+                  onChange={this.onChange}
                 />
               </div>
             </div>
