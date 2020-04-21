@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import ProfileEditButtons from '../../common/Buttons/ProfileEditButtons';
+
 class Dashboard extends Component {
   static propTypes = {
     getUserProfile: PropTypes.func.isRequired,
@@ -13,7 +15,8 @@ class Dashboard extends Component {
     const { getUserProfile } = this.props;
     getUserProfile();
   }
-  render() {
+
+  renderElements = () => {
     const {
       auth: { user },
       profile: { profile, loading },
@@ -25,99 +28,95 @@ class Dashboard extends Component {
           <h3>Loading Profile....</h3>
         </div>
       );
-    } else {
+    } else if (profile !== null) {
       return (
-        <section className='container'>
+        <div>
           <h1 className='large text-primary'>Dashboard</h1>
           <p className='lead'>
             <i className='fas fa-user'></i> Welcome {user && user.name}
           </p>
-          {profile === null ? (
-            <div>
-              <p>You have no profile. Please create one</p>
-              <Link to='/create-profile' className='btn btn-primary my-1'>
-                Create Profile
-              </Link>
-            </div>
-          ) : (
-            <div>
-              <div className='dash-buttons'>
-                <a href='edit-profile.html' className='btn btn-light'>
-                  <i className='fas fa-user-circle text-primary'></i> Edit
-                  Profile
-                </a>
-                <a href='add-experience.html' className='btn btn-light'>
-                  <i className='fab fa-black-tie text-primary'></i> Add
-                  Experience
-                </a>
-                <a href='add-education.html' className='btn btn-light'>
-                  <i className='fas fa-graduation-cap text-primary'></i> Add
-                  Education
-                </a>
-              </div>
-              <h2 className='my-2'>Experience Credentials</h2>
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th>Company</th>
-                    <th className='hide-sm'>Title</th>
-                    <th className='hide-sm'>Years</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Tech Guy Web Solutions</td>
-                    <td className='hide-sm'>Senior Developer</td>
-                    <td className='hide-sm'>02-03-2009 - 01-02-2014</td>
-                    <td>
-                      <button className='btn btn-danger'>Delete</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Traversy Media</td>
-                    <td className='hide-sm'>Instructor & Developer</td>
-                    <td className='hide-sm'>02-03-2015 - Now</td>
-                    <td>
-                      <button className='btn btn-danger'>Delete</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+          <div>
+            <ProfileEditButtons />
+            <h2 className='my-2'>Experience Credentials</h2>
+            <table className='table'>
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th className='hide-sm'>Title</th>
+                  <th className='hide-sm'>Years</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tech Guy Web Solutions</td>
+                  <td className='hide-sm'>Senior Developer</td>
+                  <td className='hide-sm'>02-03-2009 - 01-02-2014</td>
+                  <td>
+                    <button className='btn btn-danger'>Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Traversy Media</td>
+                  <td className='hide-sm'>Instructor & Developer</td>
+                  <td className='hide-sm'>02-03-2015 - Now</td>
+                  <td>
+                    <button className='btn btn-danger'>Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-              <h2 className='my-2'>Education Credentials</h2>
-              <table className='table'>
-                <thead>
-                  <tr>
-                    <th>School</th>
-                    <th className='hide-sm'>Degree</th>
-                    <th className='hide-sm'>Years</th>
-                    <th />
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Northern Essex</td>
-                    <td className='hide-sm'>Associates</td>
-                    <td className='hide-sm'>02-03-2007 - 01-02-2009</td>
-                    <td>
-                      <button className='btn btn-danger'>Delete</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <h2 className='my-2'>Education Credentials</h2>
+            <table className='table'>
+              <thead>
+                <tr>
+                  <th>School</th>
+                  <th className='hide-sm'>Degree</th>
+                  <th className='hide-sm'>Years</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Northern Essex</td>
+                  <td className='hide-sm'>Associates</td>
+                  <td className='hide-sm'>02-03-2007 - 01-02-2009</td>
+                  <td>
+                    <button className='btn btn-danger'>Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-              <div className='my-2'>
-                <button className='btn btn-danger'>
-                  <i className='fas fa-user-minus'></i>
-                  Delete My Account
-                </button>
-              </div>
+            <div className='my-2'>
+              <button className='btn btn-danger'>
+                <i className='fas fa-user-minus'></i>
+                Delete My Account
+              </button>
             </div>
-          )}
-        </section>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h1 className='large text-primary'>Dashboard</h1>
+          <p className='lead'>
+            <i className='fas fa-user'></i> Welcome {user && user.name}
+          </p>
+          <div>
+            <p>You have no profile. Please create one</p>
+            <Link to='/create-profile' className='btn btn-primary my-1'>
+              Create Profile
+            </Link>
+          </div>
+        </div>
       );
     }
+  };
+  render() {
+    return <section className='container'>{this.renderElements()}</section>;
   }
 }
 
