@@ -2,7 +2,7 @@
   "name": "udemy_devconnect",
   "version": "1.0.0",
   "engines": {
-    "node": "12.16.x",
+    "node": "12.x.x",
     "yarn": "1.x"
   },
   "description": "udemy mern",
