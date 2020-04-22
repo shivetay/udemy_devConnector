@@ -1,6 +1,10 @@
 {
   "name": "udemy_devconnect",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.16.x",
+    "yarn": "1.x"
+  },
   "description": "udemy mern",
   "main": "server.js",
   "scripts": {
